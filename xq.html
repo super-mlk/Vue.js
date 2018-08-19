@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <!--<li v-for="item in xqList">-->
+                <!--<li>{{item.zxbh}}</li>-->
+                <!--<li>{{item.sjly}}</li>-->
+                <!--<li>{{item.mc}}</li>-->
+                <!--<li>{{item.fbrq}}</li>-->
+                <!--{{item.zxbh}}-->
+            <!--</li>-->
+            <ul  v-for="item in xqList">
+                <li>{{item.zxbh}}</li>
+                <li>{{item.sjly}}</li>
+                <li>{{item.mc}}</li>
+                <li>{{item.fbrq}}</li>
+                {{item.zxbh}}
+            </ul>
+        </div>
+    </div>
+<script>
+    new Vue({
+        el : "#app",
+        data : {
+            xqList:[]
+        },
+        created(){
+            // console.log(this.GetQueryString("zxbh"));
+            this.getXq();
+        },
+        methods:{
+            //获取头部标签值
+            GetQueryString:function (name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r != null) return unescape(r[2]);
+                return null;
+            },
+            getXq:function () {
+                axios.get("46028.json").then(res=>{
+                    this.xqList = res.data;
+                    console.log(this.xqList);
+                },err=>{
+                    console.log(err);
+                })
+            }
+            
+        },
+    });
+    // function GetQueryString(name) {
+    //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    //     var r = window.location.search.substr(1).match(reg);
+    //     if(r != null) return unescape(r[2]);
+    //     return null;
+    // }
+    //
+    // console.log(GetQueryString("zxbh"));
+</script>
+</body>
+</html>

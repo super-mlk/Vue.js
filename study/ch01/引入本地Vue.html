@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>引入本地Vue.js</title>
+  <script src="js/vue.js"></script>
+ </head>
+ <body>
+	<div id="app">
+		<p>{{ message }}</p>
+	</div>
+
+
+	<script>
+		var app = new Vue({
+			el : "#app",
+			data:{
+				message	: "Hello Vue.js"
+			}
+		});
+	</script>
+ </body>
+</html>

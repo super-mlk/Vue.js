@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+
+    <style>
+        #contaienr {
+            width: auto;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        #contaienr ul {
+            list-style: none;
+        }
+
+        #contaienr nav ul li{
+            width: 100px;
+            height: 40px;
+            display: inline-block;
+            line-height: 40px;
+            background: #8c8c8c;
+            margin-right: 10px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            transition: 1s;
+        }
+        #contaienr nav ul li.active{
+            background: yellow;
+            color: red;
+        }
+
+        #contaienr nav ul li:hover{
+            background: yellow;
+            color: red;
+        }
+
+        /*内容*/
+        article{
+            width: 980px;
+            height: auto;
+            margin-left: 40px;
+            border:2px dotted #d58512;
+            border-radius: 10px;
+        }
+
+        article li{
+            width: 900px;
+            height: auto;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #8c8c8c;
+            cursor: pointer;
+        }
+
+        article li:hover{
+            color: red;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div id="contaienr">
+
+    <nav id="nav">
+        <ul>
+            <li v-for="item in navList" :data-flbh="item.flbh" @click="navId(item.flbh)">{{item.flmc}}</li>
+        </ul>
+    </nav>
+
+    <article>
+        <ul>
+            <li v-for="item in contentList" :data-zxbh="item.zxbh" @click="contentId(item.zxbh)">{{item.mc}}></li>
+        </ul>
+    </article>
+</div>
+
+<script>
+    $(document).ready(function () {
+        animteAddClass();
+        function animteAddClass() {
+            setInterval(function () {
+                $("nav ul li").eq(0).addClass("active");
+            },1000)
+        }
+    });
+</script>
+<script>
+    new Vue({
+        el: "#contaienr",
+        data: {
+            navList: [],
+            contentList: []
+        },
+        created() {
+            this.getNav();
+            this.getContent();
+        },
+        methods: {
+            //获取标题
+            getNav: function () {
+              
+                axios.get("getNav.json").then(res => {
+                    const a = {
+                        flbh: "",
+                        flmc: "推荐"
+                    };
+
+                    const ls = new Array();
+                    ls.push(a);
+                    for (var i = 0; i<res.data.length;i++){
+                        ls.push({
+                            flbh: res.data[i].flbh,
+                            flmc: res.data[i].flmc
+                        });
+                    }
+                    this.navList = ls;
+                    // console.log(this.navList);
+                }, err => {
+                    console.log(err);
+                });
+            },
+            //获取内容
+            getContent: function () {
+                axios.get("getContent.json").then(res => {
+                    console.log(res.data);
+                    this.contentList = res.data;
+                }, err => function (err) {
+                    console.log(err);
+                });
+            },
+        //    获取自定义标签
+            navId:function (flbh) {
+                // console.log(flbh);
+            },
+
+        //    获取内容自定义标签
+            contentId:function (zxbh) {
+                // console.log(zxbh);
+                var zxbh = zxbh;
+                window.location.href = "xq.html?zxbh="+zxbh;
+            }
+        }
+    })
+</script>
+
+
+</body>
+</html>
